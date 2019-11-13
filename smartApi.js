@@ -96,8 +96,21 @@ let getWhereCondition = (conditions) => {
           Object.assign(newConditions, {[newKey]: -999})
         }
       } else {
-        // console.log('constructing.... in where clause')
-        Object.assign(newConditions, {[newKey]: {'$in': conditions[key]}})
+        // 如果in中含有null, 则需要把null转化为 (key in [array] or key is null ) 这种形式
+        if (_.indexOf(conditions[key], null) !== -1) {
+          Object.assign(newConditions, { 
+            [Op.or]: [
+              {[newKey]: { [Op.in]: conditions[key].filter(o => o !== null) }},
+              {
+                [newKey]: {
+                  [Op.eq]: null
+                }
+              }
+            ]
+          })
+        } else {
+          Object.assign(newConditions, { [newKey]: { [Op.in]: conditions[key] } })
+        }
       }
     } else {
       // 如果不是数组，则直接转化为where条件
