@@ -1,25 +1,23 @@
 
+sequelize-smartapi is a library to generate CURD actions for [expressjs](https://expressjs.com) from [sequelize](https://sequelize.org) models.
 
-getList 支持 in
 
-for example:
+## Install
 
-http://localhost:3000/users?groupId=[1, 2, null]
+```bash
 
-this will change the query to:
-
-select * from users where groupId in (1, 2) or groupId is null;
-
-## 安装：
-```
 npm install sequelize-smartapi --save
+
 ```
-## Node.js
-```
+
+## Usage
+
+```javascript
 // models是通过sequelize模块创建的一系列model对象
 const models = require('./models')
 const smartApi = require('sequelize-smartapi')(models)
 ```
+
 ## 参数说明：
 |名称|是否必填|类型|说明|适用的方法|
 |--|--|--|--|--|
@@ -32,18 +30,8 @@ const smartApi = require('sequelize-smartapi')(models)
 
 
 
-
-## post - 新增数据，可以处理一个实例对象或包含多个实例对象的数组
-```
-post(Model, options={})
-
-返回的res有三种情况：
-{error:0,data:entry}，表示新增成功，entry返回新建的数据
-{error: 404, data:{}, errorMsg: '添加数据失败'}，表示没有新建数据或者数据添加失败
-{error：500，errorMsg：‘系统错误’}，表示代码异常
-```
-
 ## get - 通过指定的主键id查询对应的数据
+
 ```
 get(Model, options={})
 
@@ -55,6 +43,7 @@ get(Model, options={})
 ```
 
 ## getList -查询数据
+
 ```
 getList(Model, options={})
 
@@ -67,7 +56,19 @@ totalRecords：查询到的数据量
 
 ```
 
+## post - 新增数据，可以处理一个实例对象或包含多个实例对象的数组
+
+```
+post(Model, options={})
+
+返回的res有三种情况：
+{error:0,data:entry}，表示新增成功，entry返回新建的数据
+{error: 404, data:{}, errorMsg: '添加数据失败'}，表示没有新建数据或者数据添加失败
+{error：500，errorMsg：‘系统错误’}，表示代码异常
+```
+
 ## patch - 通过指定的主键id更新对应的数据
+
 ```
 patch(Model, option={})
 
@@ -77,6 +78,7 @@ patch(Model, option={})
 ```
 
 ## delete - 通过指定的主键ｉｄ删除对应的数据
+
 ```
 delete(Model,options={})
 
@@ -88,3 +90,15 @@ delete(Model,options={})
 ```
 
 ## putStatus - 更新状态（待补充）
+
+
+
+getList 支持 in
+
+for example:
+
+http://localhost:3000/users?groupId=[1, 2, null]
+
+this will change the query to:
+
+select * from users where groupId in (1, 2) or groupId is null;
