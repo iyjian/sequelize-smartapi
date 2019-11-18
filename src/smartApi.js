@@ -1,8 +1,11 @@
-module.exports = function (models) {
-  const _ = require('lodash')
-  const Op = require('sequelize').Sequelize.Op
-  const pluralize = require('pluralize')
+const _ = require('lodash')
+const Op = require('sequelize').Sequelize.Op
+const pluralize = require('pluralize')
+
+module.exports = (models) => {
+
   const smartApi = {}
+
   const getScope = (scopes) => {
     if (scopes) {
       const scopesCopy = _.cloneDeep(scopes)
