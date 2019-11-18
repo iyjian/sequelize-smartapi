@@ -1,6 +1,6 @@
 {
   "name": "sequelize-smartapi",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "smartapi",
   "main": "smartApi.js",
   "scripts": {
@@ -9,8 +9,8 @@
   "author": "w.c.",
   "license": "ISC",
   "repository": {
-    "type" : "git",
-    "url" : "https://github.com/iyjian/sequelize-smartapi.git"
+    "type": "git",
+    "url": "https://github.com/iyjian/sequelize-smartapi.git"
   },
   "homepage": "https://github.com/iyjian/sequelize-smartapi#README.md"
 }
