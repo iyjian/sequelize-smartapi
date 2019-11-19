@@ -2,7 +2,7 @@
   "name": "sequelize-smartapi",
   "version": "0.1.2",
   "description": "sequelize-smartapi is a library to generate CURD actions for expressjs from sequelize models.",
-  "main": "./src/smartApi.js",
+  "main": "./src/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },

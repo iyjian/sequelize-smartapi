@@ -165,7 +165,6 @@ module.exports = (models) => {
       let where = getWhereCondition(getOuterWhere(originWhere))
 
       // 添加search字段
-      // where = _.extend(where, getSearchCondition(options.searchColumns, search))
       where = Object.assign(where, getSearchCondition(options.searchColumns, search))
 
       // 定义scope
@@ -184,7 +183,6 @@ module.exports = (models) => {
         })
 
         if (options.cb) {
-          // entries = await options.cb(entries)
           entries = await options.cb(req, entries)
         }
 
@@ -192,6 +190,7 @@ module.exports = (models) => {
           where,
           include
         })
+
         res.json({ error: 0, data: entries, totalRecords: totalRecords })
       } catch (e) {
         next(e)
