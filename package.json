@@ -1,11 +1,32 @@
 {
   "name": "sequelize-smartapi",
   "version": "0.1.2",
+<<<<<<< HEAD
   "description": "smartapi",
   "main": "smartApi.js",
+=======
+  "description": "sequelize-smartapi is a library to generate CURD actions for expressjs from sequelize models.",
+  "main": "./src/index.js",
+>>>>>>> 48046cda540af21caf1d6bf07bc0085df1fb238c
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
-  "license": "ISC"
+  "author": "w.c.",
+  "license": "ISC",
+  "keywords": [
+    "CURD",
+    "sequelize",
+    "expressjs",
+    "mysql"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/iyjian/sequelize-smartapi.git"
+  },
+  "homepage": "https://github.com/iyjian/sequelize-smartapi#README.md",
+  "dependencies": {
+    "lodash": "^4.17.15",
+    "pluralize": "^8.0.0",
+    "sequelize": "^5.21.2"
+  }
 }

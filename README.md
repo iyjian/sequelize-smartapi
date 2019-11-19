@@ -13,10 +13,127 @@ npm install sequelize-smartapi --save
 ## Usage
 
 ```javascript
-// models是通过sequelize模块创建的一系列model对象
 const models = require('./models')
 const smartApi = require('sequelize-smartapi')(models)
 ```
+
+
+### smartApi.getList(model, [options])
+
+return an expressjs middleware to process a list query
+
+the first `model` parameter is a string of model's name defined in sequlize model file.
+
+The following table describes the properties of the optional options object.
+
+|    Property    |  Description   |  Type  | Default  |
+|     --         |  --            |  --    |  --      |
+|  cb            |
+|  scopes        |
+|  include       |
+|  searchColumns |
+
+the database query is controled by url query parameters, default paramenters are described as follow:
+
+```
+GET /students
+```
+
+would be converted to database query:
+
+```sql
+select * 
+from students 
+order by createdAt desc 
+limit 0, 200
+```
+
+you can changed the default behaviour by specify the url query paramters as:
+
+```
+GET /students?limit=10&start=11&sortColumn=birthDate&sortOrder=asc
+```
+
+would be converted to database query:
+
+```sql
+select * 
+from students 
+order by birthDate asc 
+limit 11, 10
+```
+
+other supported query methods includes:
+
+#### filter rows by specific column(s) with specific value
+
+```
+GET /students?classId=1
+```
+
+would be converted to a database query:
+
+```sql
+select * 
+from students 
+where classId = 1
+order by createdAt desc
+limit 200
+```
+
+you can specified more than one column:
+
+```
+GET /students?classId=1&sex=1
+```
+
+would be converted to a database query:
+
+```sql
+select * 
+from students 
+where classId = 1 and sex = 1
+order by createdAt desc
+limit 200
+```
+
+#### filter rows by specific column(s) with list values
+
+```
+GET /students?classIds=1&classIds=2&classIds=3
+```
+
+would be converted to a database query:
+
+```sql
+select * 
+from students 
+where classId in (1, 2, 3)
+order by createdAt desc
+limit 200
+```
+
+you can also specific a column with an empty value, which would be converted to a `is null` query in database
+
+```
+GET /students?classIds=1&classIds=2&classIds=3&classIds=
+```
+
+would be converted to a database query:
+
+```sql
+select * 
+from students 
+where classId in (1, 2, 3) or classId is null
+order by createdAt desc
+limit 200
+```
+
+
+
+
+
+
 
 ## 参数说明：
 |名称|是否必填|类型|说明|适用的方法|
@@ -30,17 +147,10 @@ const smartApi = require('sequelize-smartapi')(models)
 
 
 
-## get - 通过指定的主键id查询对应的数据
-
-```
-get(Model, options={})
-
-通过指定的主键id查询对应的数据
-
 返回的res有两种情况：
 {error: 0, data: entry}　返回查询结果
 {error: 404, data: {}, errorMsg: '无此记录'}
-```
+
 
 ## getList -查询数据
 

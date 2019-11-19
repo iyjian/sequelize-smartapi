@@ -1,8 +1,11 @@
-module.exports = function (models) {
-  const _ = require('lodash')
-  const Op = require('sequelize').Sequelize.Op
-  const pluralize = require('pluralize')
+const _ = require('lodash')
+const Op = require('sequelize').Sequelize.Op
+const pluralize = require('pluralize')
+
+module.exports = (models) => {
+
   const smartApi = {}
+
   const getScope = (scopes) => {
     if (scopes) {
       const scopesCopy = _.cloneDeep(scopes)
@@ -162,7 +165,6 @@ module.exports = function (models) {
       let where = getWhereCondition(getOuterWhere(originWhere))
 
       // 添加search字段
-      // where = _.extend(where, getSearchCondition(options.searchColumns, search))
       where = Object.assign(where, getSearchCondition(options.searchColumns, search))
 
       // 定义scope
@@ -181,7 +183,6 @@ module.exports = function (models) {
         })
 
         if (options.cb) {
-          // entries = await options.cb(entries)
           entries = await options.cb(req, entries)
         }
 
@@ -189,6 +190,7 @@ module.exports = function (models) {
           where,
           include
         })
+
         res.json({ error: 0, data: entries, totalRecords: totalRecords })
       } catch (e) {
         next(e)
