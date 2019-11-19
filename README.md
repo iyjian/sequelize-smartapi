@@ -13,7 +13,6 @@ npm install sequelize-smartapi --save
 ## Usage
 
 ```javascript
-// models是通过sequelize模块创建的一系列model对象
 const models = require('./models')
 const smartApi = require('sequelize-smartapi')(models)
 ```
@@ -21,9 +20,9 @@ const smartApi = require('sequelize-smartapi')(models)
 
 ### smartApi.getList(model, [options])
 
-return a expressjs middleware to process a list query
+return an expressjs middleware to process a list query
 
-the first **model** parameter is a string of model's name defined in sequlize model file.
+the first `model` parameter is a string of model's name defined in sequlize model file.
 
 The following table describes the properties of the optional options object.
 
@@ -36,9 +35,11 @@ The following table describes the properties of the optional options object.
 
 the database query is controled by url query parameters, default paramenters are described as follow:
 
-url query: GET /students
+```
+GET /students
+```
 
-which would be converted to database query:
+would be converted to database query:
 
 ```sql
 select * 
@@ -49,9 +50,11 @@ limit 0, 200
 
 you can changed the default behaviour by specify the url query paramters as:
 
+```
 GET /students?limit=10&start=11&sortColumn=birthDate&sortOrder=asc
+```
 
-which would be converted to database query:
+would be converted to database query:
 
 ```sql
 select * 
@@ -62,11 +65,13 @@ limit 11, 10
 
 other supported query methods includes:
 
-+ filter rows by specific column(s) with specific value
+#### filter rows by specific column(s) with specific value
 
-query: /students?classId=1
+```
+GET /students?classId=1
+```
 
-which would be converted to a database query:
+would be converted to a database query:
 
 ```sql
 select * 
@@ -78,9 +83,11 @@ limit 200
 
 you can specified more than one column:
 
-query: /students?classId=1&sex=1
+```
+GET /students?classId=1&sex=1
+```
 
-which would be converted to a database query:
+would be converted to a database query:
 
 ```sql
 select * 
@@ -90,11 +97,13 @@ order by createdAt desc
 limit 200
 ```
 
-+ filter rows by specific column(s) with list values
+#### filter rows by specific column(s) with list values
 
-query: /students?classIds=1&classIds=2&classIds=3
+```
+GET /students?classIds=1&classIds=2&classIds=3
+```
 
-which would be converted to a database query:
+would be converted to a database query:
 
 ```sql
 select * 
@@ -106,9 +115,11 @@ limit 200
 
 you can also specific a column with an empty value, which would be converted to a `is null` query in database
 
-query: /students?classIds=1&classIds=2&classIds=3&classIds=
+```
+GET /students?classIds=1&classIds=2&classIds=3&classIds=
+```
 
-which would be converted to a database query:
+would be converted to a database query:
 
 ```sql
 select * 
