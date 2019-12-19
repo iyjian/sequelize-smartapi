@@ -1,5 +1,5 @@
-module.exports = (db, Sequelize) => {
-  const student = db.define('student', {
+module.exports = (sqlite, Sequelize) => {
+  const student = sqlite.define('student', {
     name: {
       type: Sequelize.STRING(40),
       comment: 'student\'s name'
@@ -11,7 +11,11 @@ module.exports = (db, Sequelize) => {
   })
 
   student.associate = (models) => {
-    student.belongsTo(models.class)
+    student.belongsTo(models.classes, {
+      foreignKey: {
+        allowNull: false
+      }
+    })
   }
 
   return student

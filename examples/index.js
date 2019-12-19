@@ -12,7 +12,9 @@ app.use(bodyParser.json({ limit: '50mb' }))
 app.get('/students', (req, res) => {
   res.send('1')
 })
-
+app.get('/course',(req, res) => {
+  res.send('course')
+})
 const server = http.createServer(app)
 
 server.listen(port)

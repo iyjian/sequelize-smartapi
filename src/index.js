@@ -110,6 +110,10 @@ module.exports = (models) => {
             Object.assign(newConditions, { [newKey]: { [Op.in]: conditions[key] } })
           }
         }
+      } else if (conditions[key].operator) {
+        Object.assign(newConditions,{[key]:{
+          [Op[conditions[key].operator]] : conditions[key].value
+        }})
       } else {
         // 如果不是数组，则直接转化为where条件
         if (conditions[key].indexOf(' - ') !== -1 || conditions[key].indexOf('+-+') !== -1) {
@@ -147,6 +151,20 @@ module.exports = (models) => {
     }
     return outerWhere
   }
+    // 返回多层排序数组
+    const getOrderCondition = (sortColumnlist) => {
+      const orderby = []
+      for (let v of sortColumnlist) {
+        v = JSON.parse(v)
+        // if (v.sort === 'desc') {
+        //   orderby.push(`${v.col} ${v.sort} nulls last`)
+        // } else {
+        //   orderby.push(`${v.col} ${v.sort}`)
+        // }
+        orderby.push([v.col, v.sort])
+      }
+      return orderby
+    }
 
   smartApi.getList = (Model, options = {}) => {
     return async (req, res, next) => {
@@ -173,12 +191,20 @@ module.exports = (models) => {
       // 定义include
       const include = getInclude(req, options.include, includeWhere)
 
+      // 多列排序问题
+      let orderarr = []
+      if (_.isArray(sortColumn)) {
+        orderarr = getOrderCondition(sortColumn)
+      } else {
+        orderarr = [[sortColumn, sortOrder]]
+      }
+
       try {
         let entries = await models[Model].scope(scope).findAll({
           where,
           limit,
           offset: start,
-          order: [[sortColumn, sortOrder]],
+          order: orderarr,
           include
         })
 

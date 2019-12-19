@@ -23,6 +23,7 @@
     "express": "^4.17.1",
     "lodash": "^4.17.15",
     "pluralize": "^8.0.0",
-    "sequelize": "^5.21.2"
+    "sequelize": "^5.21.2",
+    "sqlite3": "^4.1.0"
   }
 }
