@@ -172,7 +172,7 @@ module.exports = (models) => {
       // 除了common字段，其他都添加到where条件中
       // TODO: nodejs现在不支持object 的rest parameter http://stackoverflow.com/questions/36666433/node-5-10-spread-operator-not-working
       // let {limit = 10, start = 0, sortColumn = 'createdAt', sortOrder = 'DESC', search, userId, ...where} = req.query
-      let { limit = 200, start = 0, sortColumn = '1', sortOrder = 'DESC', search } = req.query
+      let { limit = 200, start = 0, sortColumn = 'id', sortOrder = 'DESC', search } = req.query
       limit = parseInt(limit)
       start = parseInt(start)
       // 忽略common字段
