@@ -84,7 +84,9 @@ module.exports = (models) => {
         // 如果是数组，比如说传过来的是 shopIds 则需要把shopId 转成 in 的查询条件
         // 但是有种特殊情况 比如既指定了 shopIds 又指定了 shopId 则以shopId为准
         const newKey = pluralize.singular(key)
-        if (conditions[newKey]) {
+        if (_.isEqual(newKey, key)) {
+          Object.assign(newConditions, { [newKey]: conditions[newKey] })
+        } else if (conditions[newKey] && !_.isEqual(newKey, key)) {
           // 如果这个转为单数的key已经存在了，则原则上以这个存在的key为准
           if (conditions[key].filter(val => {
             return val === conditions[newKey]
@@ -120,7 +122,7 @@ module.exports = (models) => {
           conditions[key] = conditions[key].replace(/\+-\+/, ' - ')
           Object.assign(newConditions, {
             [key]: {
-              $between: conditions[key].split(' - ')
+              [Op.between]: conditions[key].split(' - ')
             }
           })
         } else {
