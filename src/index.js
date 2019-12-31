@@ -178,7 +178,7 @@ module.exports = (models) => {
       limit = parseInt(limit)
       start = parseInt(start)
       // 忽略common字段
-      const originWhere = _.omit(req.query, ['limit', 'start', 'sortColumn', 'sortOrder', 'search', 'userId', 'roleId', 'secret'])
+      const originWhere = _.omit(req.query, ['limit', 'start', 'sortColumn', 'sortOrder', 'search', 'userId', 'roleId', 'secret', 'attributes', 'group'])
       // 把where中带.的param提取出来，这部分param需要放在include中去where
       const includeWhere = getIncludeWhere(originWhere)
 
@@ -200,15 +200,25 @@ module.exports = (models) => {
       } else {
         orderarr = [[sortColumn, sortOrder]]
       }
+      // 只查询部分列
+      let attributes = req.query.attributes ? req.query.attributes : {exclude: ['']}
+
+      let finalparams = {attributes, where, limit, offset: start, order: orderarr, include}
+      // 分组
+      let  group = req.query.group ? req.query.group : null
+      if (group) {
+        finalparams['group'] = group
+      }
 
       try {
-        let entries = await models[Model].scope(scope).findAll({
-          where,
-          limit,
-          offset: start,
-          order: orderarr,
-          include
-        })
+        // let entries = await models[Model].scope(scope).findAll({
+        //   where,
+        //   limit,
+        //   offset: start,
+        //   order: orderarr,
+        //   include
+        // })
+        let entries = await models[Model].scope(scope).findAll(finalparams)
 
         if (options.cb) {
           entries = await options.cb(req, entries)
